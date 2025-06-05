@@ -6,6 +6,7 @@
 
 #include "AP_DAL/AP_DAL.h"
 
+
 // Control filter mode transitions
 void NavEKF3_core::controlFilterModes()
 {
@@ -771,6 +772,19 @@ void  NavEKF3_core::updateFilterStatus(void)
 
     // If GPS height usage is specified, height is considered to be inaccurate until the GPS passes all checks
     bool hgtNotAccurate = (frontend->sources.getPosZSource() == AP_NavEKF_Source::SourceZ::GPS) && !validOrigin;
+
+    /// Rasheed Edit
+    // doingNormalGpsNav is the flag to make it lost pos rel and abs,
+    // if ((AP_HAL::millis() - last_print_stamp) > 1000){
+    //     last_print_stamp = AP_HAL::millis();
+
+    //     gcs().send_text(MAV_SEVERITY_INFO,"dBVN %d dFN %d dWRN %d dNGN %d gOV %d", doingBodyVelNav, doingFlowNav, doingWindRelNav, doingNormalGpsNav, gndOffsetValid);
+    //     gcs().send_text(MAV_SEVERITY_INFO,"iST %lu lGPP %lu pRTV %u pRTN %u", imuSampleTime_ms, lastGpsPosPassTime_ms, frontend->posRetryTimeUseVel_ms, frontend->posRetryTimeNoVel_ms);
+    //     gcs().send_text(MAV_SEVERITY_INFO,"tDTM %u f_heal %d", frontend->tiltDriftTimeMax_ms, filterHealthy);
+    //     gcs().send_text(MAV_SEVERITY_INFO,"-----------------------------");
+    // }
+
+
 
     // set individual flags
     status.flags.attitude = !stateStruct.quat.is_nan() && filterHealthy;   // attitude valid (we need a better check)

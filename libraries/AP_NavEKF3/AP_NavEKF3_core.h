@@ -1561,7 +1561,7 @@ private:
 
     // when was attitude filter status last non-zero?
     uint32_t last_filter_ok_ms;
-    
+    uint32_t last_print_stamp = AP_HAL::millis();
     // should we assume zero sideslip?
     bool assume_zero_sideslip(void) const;
 

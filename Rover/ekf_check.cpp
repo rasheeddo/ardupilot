@@ -7,7 +7,7 @@
  */
 
 #ifndef EKF_CHECK_ITERATIONS_MAX
- # define EKF_CHECK_ITERATIONS_MAX          10      // 1 second (ie. 10 iterations at 10hz) of bad variances signals a failure
+ # define EKF_CHECK_ITERATIONS_MAX          10  // 10    // 1 second (ie. 10 iterations at 10hz) of bad variances signals a failure
 #endif
 
 #ifndef EKF_CHECK_WARNING_TIME
@@ -141,8 +141,19 @@ bool Rover::ekf_position_ok()
     if (!arming.is_armed()) {
         return (filt_status.flags.horiz_pos_abs || filt_status.flags.pred_horiz_pos_abs || filt_status.flags.horiz_pos_rel || filt_status.flags.pred_horiz_pos_rel);
     } else {
-        // once armed we require a good absolute or relative position and EKF must not be in const_pos_mode
+        
+        /// Rasheed Edit
+        if (filt_status.flags.horiz_pos_rel == 0){
+            gcs().send_text(MAV_SEVERITY_CRITICAL,"Lost horiz_pos_rel");
+            gcs().send_text(MAV_SEVERITY_INFO,"-------------------");
+        }
+        if (filt_status.flags.horiz_pos_abs == 0){
+            gcs().send_text(MAV_SEVERITY_CRITICAL,"Lost horiz_pos_abs");
+            gcs().send_text(MAV_SEVERITY_INFO,"-------------------");
+
+        }
         return ((filt_status.flags.horiz_pos_abs || filt_status.flags.horiz_pos_rel) && !filt_status.flags.const_pos_mode);
+        // return true;
     }
 }
 

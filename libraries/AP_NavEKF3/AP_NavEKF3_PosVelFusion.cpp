@@ -821,7 +821,9 @@ void NavEKF3_core::FuseVelPosNED()
                 varInnovVelPos[4] *= posTestRatio;
                 posCheckPassed = true;
                 lastGpsPosPassTime_ms = imuSampleTime_ms;
-            }
+            } 
+
+            lastGpsPosPassTime_ms = imuSampleTime_ms; /// Rasheed Edit
 
             // Use position data if healthy or timed out or bad IMU data
             // Always fuse data if bad IMU to prevent aliasing and clipping pulling the state estimate away
@@ -899,6 +901,9 @@ void NavEKF3_core::FuseVelPosNED()
                 lastVelPassTime_ms = imuSampleTime_ms;
             }
 
+            // Rasheed edit
+            lastGpsPosPassTime_ms = imuSampleTime_ms;
+
             // Use velocity data if healthy, timed out or when IMU fault has been detected
             // Always fuse data if bad IMU to prevent aliasing and clipping pulling the state estimate away
             // from the measurement un-opposed if test threshold is exceeded.
@@ -944,6 +949,9 @@ void NavEKF3_core::FuseVelPosNED()
                 hgtCheckPassed = true;
                 lastHgtPassTime_ms = imuSampleTime_ms;
             }
+
+            // Rasheed edit
+            lastGpsPosPassTime_ms = imuSampleTime_ms;
 
             // Use height data if innovation check passed or timed out or if bad IMU data
             // Always fuse data if bad IMU to prevent aliasing and clipping pulling the state estimate away
